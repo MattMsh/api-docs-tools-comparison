@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API docs tools: Scalar Docs vs GitBook vs Docusaurus vs Mintlify</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #171a21; --line: #262b36; --text: #e6e8ee; --muted: #9aa3b2;
+    --scalar: #7c5cff; --gitbook: #3b82f6; --docu: #2fbf71; --mint: #18b8a6;
+    --yes: #2fbf71; --part: #e5a50a; --no: #ef5b5b;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f7f8fa; --panel: #fff; --line: #e3e6ec; --text: #161a22; --muted: #5d6676; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+  main { max-width: 1120px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 28px; margin: 0 0 4px; }
+  h2 { font-size: 19px; margin: 40px 0 12px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  a { color: inherit; }
+  .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px; border-top: 4px solid var(--c); }
+  .card h3 { margin: 0 0 2px; font-size: 18px; }
+  .card .kind { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+  .card .price { font-size: 22px; font-weight: 700; }
+  .card .price small { font-size: 13px; font-weight: 400; color: var(--muted); }
+  .card ul { margin: 10px 0 0; padding-left: 18px; }
+  .card li { margin: 3px 0; }
+  .best { margin-top: 12px; padding: 8px 10px; border-radius: 8px; background: color-mix(in srgb, var(--c) 14%, transparent); font-size: 14px; }
+  .wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; }
+  th, td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+  thead th { position: sticky; top: 0; background: var(--panel); font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  thead th:nth-child(2) { color: var(--scalar); } thead th:nth-child(3) { color: var(--gitbook); } thead th:nth-child(4) { color: var(--docu); } thead th:nth-child(5) { color: var(--mint); }
+  tr.group td { background: color-mix(in srgb, var(--line) 50%, transparent); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  td:first-child { color: var(--muted); width: 14%; }
+  .found { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--mint); border-radius: 10px; padding: 12px 14px; font-size: 14px; margin-bottom: 18px; }
+  .found code { font-size: 13px; }
+  .d { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; }
+  .y { background: var(--yes); } .p { background: var(--part); } .n { background: var(--no); }
+  .legend { color: var(--muted); font-size: 13px; margin: 8px 0 0; }
+  .bars { display: grid; gap: 18px; }
+  .scenario { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .scenario h4 { margin: 0 0 10px; font-size: 15px; }
+  .row { display: grid; grid-template-columns: 110px 1fr 120px; align-items: center; gap: 10px; margin: 6px 0; font-size: 14px; }
+  .bar { height: 14px; border-radius: 7px; background: var(--c); min-width: 3px; }
+  .val { text-align: right; font-variant-numeric: tabular-nums; }
+  .na { color: var(--muted); font-style: italic; }
+  .pick { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .pick div { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--c); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+  .pick b { display: block; margin-bottom: 4px; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 1000px) { .cards, .pick { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) {
+    .cards, .pick { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 90px 1fr 100px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>API docs tools compared</h1>
+  <p class="sub">Scalar Docs · GitBook · Docusaurus · Mintlify — researched 9 Nov 2026 from vendor docs, pricing pages, and repos.</p>
+
+  <div class="found"><b>Circle uses Mintlify.</b> <a href="https://developers.circle.com/crosschain-transfers">developers.circle.com</a> serves <code>&lt;meta name="generator" content="Mintlify"&gt;</code> and an <code>x-mintlify-client-version</code> header, proxied from <code>circle-167b8d39.mintlify.site</code>.</div>
+
+  <div class="cards">
+    <div class="card" style="--c: var(--scalar)">
+      <h3>Scalar Docs</h3>
+      <div class="kind">Hosted SaaS · docs-as-code · renderer MIT</div>
+      <div class="price">$125<small>/mo yearly · Pro, 5 editors</small></div>
+      <ul>
+        <li>Best native API reference: OpenAPI 3.x + AsyncAPI</li>
+        <li>MDX, PR previews, CLI deploy, rollback</li>
+        <li>llms.txt, Ask AI, and MCP on every site</li>
+        <li>No GitLab, GraphQL, or i18n</li>
+      </ul>
+      <div class="best">API-first teams that live in Git</div>
+    </div>
+    <div class="card" style="--c: var(--gitbook)">
+      <h3>GitBook</h3>
+      <div class="kind">Hosted SaaS · WYSIWYG + 2-way Git · renderer GPLv3</div>
+      <div class="price">$65<small>/site/mo + $12/user · Essential</small></div>
+      <ul>
+        <li>Block editor for non-developers</li>
+        <li>2-way GitHub <em>and</em> GitLab sync, change requests</li>
+        <li>"Test it" console is powered by Scalar</li>
+        <li>No custom CSS/JS; fixed layout; badge stays</li>
+      </ul>
+      <div class="best">Mixed teams where writers don't use Git</div>
+    </div>
+    <div class="card" style="--c: var(--docu)">
+      <h3>Docusaurus</h3>
+      <div class="kind">Open-source static site generator · MIT · Meta</div>
+      <div class="price">$0<small> + your hosting</small></div>
+      <ul>
+        <li>Full React/MDX control, swizzling, plugins</li>
+        <li>Best versioning and i18n of the three</li>
+        <li>API reference, search, llms.txt, MCP = plugins</li>
+        <li>No roles, SSO, or private docs</li>
+      </ul>
+      <div class="best">Zero budget, full control, many locales</div>
+    </div>
+    <div class="card" style="--c: var(--mint)">
+      <h3>Mintlify</h3>
+      <div class="kind">Hosted SaaS · docs-as-code + browser editor · closed</div>
+      <div class="price">$0<small> · Starter, 5 editors, custom domain</small></div>
+      <ul>
+        <li>Widest API coverage: OpenAPI 3.2, AsyncAPI, GraphQL</li>
+        <li>Free tier has search, MCP, API playground</li>
+        <li>Custom CSS/JS and React components on all plans</li>
+        <li>Analytics, previews, AI: $450/mo jump</li>
+      </ul>
+      <div class="best">Public API docs, fast — what Circle uses</div>
+    </div>
+  </div>
+
+  <h2>Feature matrix</h2>
+  <div class="wrap">
+  <table>
+    <thead><tr><th>Feature</th><th>Scalar Docs</th><th>GitBook</th><th>Docusaurus</th><th>Mintlify</th></tr></thead>
+    <tbody>
+      <tr class="group"><td colspan="5">API reference</td></tr>
+      <tr><td>OpenAPI</td><td><span class="d y"></span>3.0, 3.1; Swagger 2.0 upgraded</td><td><span class="d y"></span>2.0, 3.0, 3.1 + webhooks</td><td><span class="d p"></span>Community plugins</td><td><span class="d y"></span>3.0, 3.1, 3.2; no Swagger 2.0</td></tr>
+      <tr><td>AsyncAPI</td><td><span class="d y"></span>Native</td><td><span class="d n"></span>Not documented</td><td><span class="d n"></span>Not in core</td><td><span class="d y"></span>3.0 + WebSocket playground</td></tr>
+      <tr><td>GraphQL</td><td><span class="d n"></span>"Coming soon" (client)</td><td><span class="d n"></span>Not documented</td><td><span class="d p"></span>Community plugin</td><td><span class="d y"></span>SDL schemas</td></tr>
+      <tr><td>Try-it console</td><td><span class="d y"></span>Native</td><td><span class="d y"></span>Yes, via Scalar</td><td><span class="d p"></span>Depends on plugin</td><td><span class="d y"></span>Native</td></tr>
+      <tr><td>Spec auto-update</td><td><span class="d y"></span>Registry, CI, Git</td><td><span class="d y"></span>URL every 6 h, CLI</td><td><span class="d p"></span>Rebuild in CI</td><td><span class="d y"></span>Git or hosted spec URL</td></tr>
+      <tr class="group"><td colspan="5">Authoring</td></tr>
+      <tr><td>Format</td><td><span class="d y"></span>Markdown / MDX</td><td><span class="d p"></span>Markdown, no MDX</td><td><span class="d y"></span>Markdown / MDX + React</td><td><span class="d y"></span>Markdown / MDX</td></tr>
+      <tr><td>Visual editor</td><td><span class="d p"></span>Web editor, not WYSIWYG</td><td><span class="d y"></span>Block WYSIWYG</td><td><span class="d n"></span>None</td><td><span class="d y"></span>Browser editor, co-editing</td></tr>
+      <tr><td>Git</td><td><span class="d p"></span>GitHub, Bitbucket</td><td><span class="d y"></span>2-way GitHub, GitLab</td><td><span class="d y"></span>Repo is the source</td><td><span class="d y"></span>GitHub, GitLab, Azure, GHES</td></tr>
+      <tr><td>Review flow</td><td><span class="d y"></span>PR previews + comments</td><td><span class="d y"></span>Change requests + PR previews</td><td><span class="d p"></span>Your CI/host</td><td><span class="d p"></span>Review requests; previews Pro+</td></tr>
+      <tr class="group"><td colspan="5">Customization</td></tr>
+      <tr><td>Custom CSS / JS</td><td><span class="d y"></span>Pro+</td><td><span class="d n"></span>Not allowed</td><td><span class="d y"></span>Full (swizzling)</td><td><span class="d y"></span>All plans + React components</td></tr>
+      <tr><td>Custom domain</td><td><span class="d y"></span>Pro+</td><td><span class="d y"></span>Essential+</td><td><span class="d y"></span>At your host</td><td><span class="d y"></span>Free; subpath + proxy</td></tr>
+      <tr class="group"><td colspan="5">Search &amp; AI</td></tr>
+      <tr><td>Search</td><td><span class="d y"></span>Built in, indexes API fields</td><td><span class="d y"></span>Built in</td><td><span class="d p"></span>Algolia or plugin</td><td><span class="d y"></span>Built in</td></tr>
+      <tr><td>AI assistant</td><td><span class="d y"></span>Ask AI (credits)</td><td><span class="d p"></span>Ask Essential+, Chat Ultimate+</td><td><span class="d p"></span>Algolia Ask AI, own LLM</td><td><span class="d p"></span>Pro+ (credits)</td></tr>
+      <tr><td>llms.txt</td><td><span class="d y"></span>Automatic</td><td><span class="d y"></span>Automatic, all plans</td><td><span class="d p"></span>Community plugin</td><td><span class="d y"></span>Automatic, all plans</td></tr>
+      <tr><td>MCP server</td><td><span class="d y"></span>Pro+</td><td><span class="d y"></span>All plans, incl. Free</td><td><span class="d p"></span>Community plugin</td><td><span class="d y"></span>All plans, incl. Free</td></tr>
+      <tr><td>Analytics</td><td><span class="d y"></span>First-party, cookieless</td><td><span class="d y"></span>Incl. AI/agent traffic</td><td><span class="d p"></span>GA / GTM / Vercel</td><td><span class="d p"></span>Pro+, human vs agent</td></tr>
+      <tr class="group"><td colspan="5">Access &amp; scale</td></tr>
+      <tr><td>Versioning</td><td><span class="d y"></span>Yes</td><td><span class="d y"></span>Site variants</td><td><span class="d y"></span>Strong</td><td><span class="d y"></span>Yes</td></tr>
+      <tr><td>i18n</td><td><span class="d n"></span>Not documented</td><td><span class="d p"></span>AI translation (credits)</td><td><span class="d y"></span>Strong, RTL, Crowdin</td><td><span class="d y"></span>~30 languages</td></tr>
+      <tr><td>Private docs</td><td><span class="d y"></span>Access groups, Pro+</td><td><span class="d p"></span>Auth on Ultimate+</td><td><span class="d n"></span>DIY at host/proxy</td><td><span class="d p"></span>Password Pro, OAuth/JWT Ent.</td></tr>
+      <tr><td>Team SAML SSO</td><td><span class="d p"></span>Business+</td><td><span class="d p"></span>Enterprise only</td><td><span class="d n"></span>N/A</td><td><span class="d p"></span>Enterprise only</td></tr>
+      <tr><td>Self-host</td><td><span class="d p"></span>Renderer only</td><td><span class="d p"></span>Renderer, discouraged</td><td><span class="d y"></span>Required</td><td><span class="d p"></span>Enterprise only</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="legend"><span class="d y"></span>built in &nbsp; <span class="d p"></span>partial, paid tier, or needs setup &nbsp; <span class="d n"></span>missing</p>
+
+  <h2>Monthly cost by scenario (annual billing)</h2>
+  <div class="bars">
+    <div class="scenario">
+      <h4>5 editors · 1 public site · custom domain</h4>
+      <div class="row"><span>Scalar</span><div class="bar" style="--c:var(--scalar);width:25%"></div><span class="val">$125 · Pro</span></div>
+      <div class="row"><span>GitBook</span><div class="bar" style="--c:var(--gitbook);width:25%"></div><span class="val">$125 · Ess.</span></div>
+      <div class="row"><span>Docusaurus</span><div class="bar" style="--c:var(--docu);width:0"></div><span class="val">$0 + host</span></div>
+      <div class="row"><span>Mintlify</span><div class="bar" style="--c:var(--mint);width:0"></div><span class="val">$0 · Starter</span></div>
+    </div>
+    <div class="scenario">
+      <h4>5 editors · public site + analytics, previews, AI assistant</h4>
+      <div class="row"><span>Scalar</span><div class="bar" style="--c:var(--scalar);width:25%"></div><span class="val">$125 · Pro</span></div>
+      <div class="row"><span>GitBook</span><div class="bar" style="--c:var(--gitbook);width:25%"></div><span class="val">$125 · Ess.</span></div>
+      <div class="row"><span>Docusaurus</span><div class="bar" style="--c:var(--docu);width:0"></div><span class="val na">plugins + LLM</span></div>
+      <div class="row"><span>Mintlify</span><div class="bar" style="--c:var(--mint);width:90%"></div><span class="val">$450 · Pro</span></div>
+    </div>
+    <div class="scenario">
+      <h4>5 editors · private docs behind login</h4>
+      <div class="row"><span>Scalar</span><div class="bar" style="--c:var(--scalar);width:25%"></div><span class="val">$125 · Pro</span></div>
+      <div class="row"><span>GitBook</span><div class="bar" style="--c:var(--gitbook);width:62%"></div><span class="val">$309 · Ult.</span></div>
+      <div class="row"><span>Docusaurus</span><div class="bar" style="--c:var(--docu);width:0"></div><span class="val na">own auth proxy</span></div>
+      <div class="row"><span>Mintlify</span><div class="bar" style="--c:var(--mint);width:90%"></div><span class="val">$450 · password</span></div>
+    </div>
+    <div class="scenario">
+      <h4>Team SAML SSO</h4>
+      <div class="row"><span>Scalar</span><div class="bar" style="--c:var(--scalar);width:100%"></div><span class="val">$500 · Bus.</span></div>
+      <div class="row"><span>GitBook</span><div class="bar" style="--c:var(--gitbook);width:0"></div><span class="val na">Enterprise quote</span></div>
+      <div class="row"><span>Docusaurus</span><div class="bar" style="--c:var(--docu);width:0"></div><span class="val na">N/A</span></div>
+      <div class="row"><span>Mintlify</span><div class="bar" style="--c:var(--mint);width:0"></div><span class="val na">Enterprise quote</span></div>
+    </div>
+  </div>
+  <p class="legend">Bars share one scale ($500 = full). Scalar scales by API count (3 / 15 / 25). GitBook scales per site plus per user. Mintlify Pro has unlimited editors; OAuth/JWT reader login is Enterprise. Docusaurus has no license cost.</p>
+
+  <h2>Which one to pick</h2>
+  <div class="pick">
+    <div style="--c:var(--mint)"><b>Mintlify</b>Public API docs with REST, async, and GraphQL APIs. Start free. Circle's choice.</div>
+    <div style="--c:var(--scalar)"><b>Scalar Docs</b>You need private docs, analytics, or AI on a budget, and your team works in Git.</div>
+    <div style="--c:var(--gitbook)"><b>GitBook</b>Writers who don't use Git produce most of the content.</div>
+    <div style="--c:var(--docu)"><b>Docusaurus</b>Zero budget, deep customization, or many locales. Add <code>docusaurus-openapi-docs</code> or embed the MIT Scalar API Reference.</div>
+  </div>
+
+  <footer>
+    Full cited reports: <a href="research-scalar.md">research-scalar.md</a> · <a href="research-gitbook.md">research-gitbook.md</a> · <a href="research-docusaurus.md">research-docusaurus.md</a> · <a href="research-mintlify.md">research-mintlify.md</a> · <a href="comparison.md">comparison.md</a>
+  </footer>
+</main>
+</body>
+</html>
