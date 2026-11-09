@@ -16,7 +16,7 @@ It is served from `circle-167b8d39.mintlify.site` through a reverse proxy.
 | Type | Hosted SaaS, docs-as-code | Hosted SaaS, visual editor + Git | Open-source static site generator | Hosted SaaS, docs-as-code + browser editor |
 | License | SaaS; renderer is MIT | SaaS; renderer is GPLv3 | MIT | Closed; CLI is Elastic-2.0 |
 | Self-host | Renderer only | Renderer only, discouraged | Yes, you must host it | Enterprise only |
-| OpenAPI | 3.0, 3.1; Swagger 2.0 upgraded | Swagger 2.0, 3.0, 3.1 (incl. webhooks) | Community plugins only | 3.0, 3.1, 3.2; no Swagger 2.0 |
+| OpenAPI | 3.0, 3.1, 3.2; Swagger 2.0 upgraded | Swagger 2.0, 3.0, 3.1 (incl. webhooks) | Community plugins only | 3.0, 3.1, 3.2; no Swagger 2.0 |
 | AsyncAPI | Yes | Not documented | Not in core | 3.0, WebSocket playground |
 | GraphQL | No ("coming soon" in client) | Not documented | Community plugin | Yes (SDL) |
 | "Try it" console | Yes, native | Yes, powered by Scalar | Depends on plugin | Yes, native |

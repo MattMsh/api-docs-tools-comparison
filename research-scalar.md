@@ -17,7 +17,7 @@ Scalar Docs is a hosted API documentation platform from Scalar. It publishes int
 
 ## API reference support
 
-- OpenAPI 3.0 and 3.1 in JSON or YAML. Swagger 2.0 is upgraded on load ([19](https://scalar.com/products/api-references)).
+- OpenAPI 3.0, 3.1, and 3.2 in JSON or YAML. Swagger 2.0 is upgraded on load ([19](https://scalar.com/products/api-references)). OpenAPI 3.2 handling appears in the renderer changelog ([26](https://github.com/scalar/scalar/pull/10489), [27](https://github.com/scalar/scalar/pull/10487)).
 - AsyncAPI documents render as channels, operations, and messages instead of paths and responses ([19](https://scalar.com/products/api-references)).
 - GraphQL is not supported for docs. The API Client lists a GraphQL client as "Coming Soon" on all plans ([2](https://scalar.com/pricing)).
 - Interactive "try it": every operation has a Test Request button that opens the API Client in place, with servers, parameters, and auth prefilled ([1](https://scalar.com/products/docs), [19](https://scalar.com/products/api-references)).
@@ -144,3 +144,5 @@ Prices from the pricing page ([2](https://scalar.com/pricing)):
 23. https://github.com/scalar/scalar/blob/main/LICENSE
 24. https://scalar.com/changelog
 25. https://scalar.com/security
+26. https://github.com/scalar/scalar/pull/10489
+27. https://github.com/scalar/scalar/pull/10487
